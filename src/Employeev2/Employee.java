@@ -67,6 +67,8 @@ abstract public class Employee {
 	public final String getName() {
 		return name;
 	}
-
+public static double getTotalpay(){
+    return totalpay;
+}
 
 }

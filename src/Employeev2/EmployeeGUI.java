@@ -5,6 +5,7 @@
  */
 package Employeev2;
 
+import java.text.NumberFormat;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,12 +13,13 @@ import javax.swing.JOptionPane;
  * @author ajdy5510
  */
 public class EmployeeGUI extends javax.swing.JFrame {
-
-    /**
-     * Creates new form EmployeeGUI
-     */
+Employee emp[];
+int size=0;
+NumberFormat nf;
     public EmployeeGUI() {
         initComponents();
+        emp=new Employee[10];
+        nf=NumberFormat.getCurrencyInstance();
     }
 
     /**
@@ -43,7 +45,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
         btnadd = new javax.swing.JButton();
         btnclear = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblemp = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         txtpay = new javax.swing.JTextField();
 
@@ -111,7 +113,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblemp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -130,7 +132,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblemp);
 
         jLabel5.setText("Total Pay");
 
@@ -220,6 +222,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
             hours= Integer.parseInt(txthours.getText());
             rate= Double.parseDouble(txtrate.getText());
             type=buttonGroup1.getSelection().getActionCommand();
+            
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(this, "Must fill out form correctly ");
@@ -229,11 +232,37 @@ public class EmployeeGUI extends javax.swing.JFrame {
         temp=new FullTime();
         else
         temp=new PartTime();
+        if(temp.setName(nm)&&temp.setHours(hours)&&temp.setRate(rate)){
+        emp[size]=temp;
+        tblemp.setValueAt(temp.getName(), size, 0);
+        tblemp.setValueAt(nf.format(temp.getTotalpay()), size, 1);
+        size++;
+        txtpay.setText(nf.format(Employee.getTotalpay()));
+        clearform();
+        return;
+        
+        }
+        String error="ERROR\n========\n";
+        if(temp.setName(nm)==false)error+="Name: "+Employee.getNameRules()+"n";
+        if(temp.setHours(hours)==false)error+="Hours: "+Employee.getHoursRules()+"n";
+        if(temp.setRate(rate)==false)error+="Rate: "+Employee.getRateRules()+"n";
+        JOptionPane.showMessageDialog(this, error);
+        
         
     }//GEN-LAST:event_btnaddActionPerformed
-
+public void clearform(){
+txtname.setText("");
+txtrate.setText("");
+txthours.setText("");
+buttonGroup1.clearSelection();
+}
     private void btnclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclearActionPerformed
-        // TODO add your handling code here:
+      txtname.setText("");
+txtrate.setText("");
+txthours.setText("");
+Employee.totalpay=0;
+tblemp.clearSelection();
+buttonGroup1.clearSelection();
     }//GEN-LAST:event_btnclearActionPerformed
 
     private void rdptimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdptimeActionPerformed
@@ -290,9 +319,9 @@ public class EmployeeGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JRadioButton rdftime;
     private javax.swing.JRadioButton rdptime;
+    private javax.swing.JTable tblemp;
     private javax.swing.JTextField txthours;
     private javax.swing.JTextField txtname;
     private javax.swing.JTextField txtpay;
