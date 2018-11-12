@@ -106,7 +106,7 @@ NumberFormat nf;
             }
         });
 
-        btnclear.setText("clear");
+        btnclear.setText("Quit");
         btnclear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnclearActionPerformed(evt);
@@ -118,20 +118,18 @@ NumberFormat nf;
                 {null, null},
                 {null, null},
                 {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
                 {null, null}
             },
             new String [] {
                 "Name", "Pay"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        ));
         jScrollPane1.setViewportView(tblemp);
 
         jLabel5.setText("Total Pay");
@@ -172,7 +170,7 @@ NumberFormat nf;
                                     .addComponent(txtname, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(24, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,9 +195,9 @@ NumberFormat nf;
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnclear)
                     .addComponent(btnadd))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtpay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -228,14 +226,14 @@ NumberFormat nf;
             JOptionPane.showMessageDialog(this, "Must fill out form correctly ");
             return;
         }
-        if(type.equals("FT"))
+        if(type.equals("ft"))
         temp=new FullTime();
         else
         temp=new PartTime();
         if(temp.setName(nm)&&temp.setHours(hours)&&temp.setRate(rate)){
         emp[size]=temp;
         tblemp.setValueAt(temp.getName(), size, 0);
-        tblemp.setValueAt(nf.format(temp.getTotalpay()), size, 1);
+     tblemp.setValueAt(nf.format(temp.getPay()), size, 1);
         size++;
         txtpay.setText(nf.format(Employee.getTotalpay()));
         clearform();
@@ -243,9 +241,9 @@ NumberFormat nf;
         
         }
         String error="ERROR\n========\n";
-        if(temp.setName(nm)==false)error+="Name: "+Employee.getNameRules()+"n";
-        if(temp.setHours(hours)==false)error+="Hours: "+Employee.getHoursRules()+"n";
-        if(temp.setRate(rate)==false)error+="Rate: "+Employee.getRateRules()+"n";
+        if(temp.setName(nm)==false)error+="Name: "+Employee.getNameRules()+"\n";
+        if(temp.setHours(hours)==false)error+="Hours: "+Employee.getHoursRules()+"\n";
+        if(temp.setRate(rate)==false)error+="Rate: "+Employee.getRateRules()+"\n";
         JOptionPane.showMessageDialog(this, error);
         
         
@@ -257,12 +255,7 @@ txthours.setText("");
 buttonGroup1.clearSelection();
 }
     private void btnclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclearActionPerformed
-      txtname.setText("");
-txtrate.setText("");
-txthours.setText("");
-Employee.totalpay=0;
-tblemp.clearSelection();
-buttonGroup1.clearSelection();
+System.exit(0);
     }//GEN-LAST:event_btnclearActionPerformed
 
     private void rdptimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdptimeActionPerformed
